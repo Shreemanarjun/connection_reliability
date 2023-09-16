@@ -38,7 +38,7 @@ To get started with Streamlined Monitor Connection Setup, follow these installat
      flutter:
        sdk: flutter
      flutter_riverpod: ^latest_version
-     internet_connection_checker: ^latest_version
+     internet_connection_checker_plus: ^latest_version
    ```
 
 2. Run `flutter pub get` to fetch and install the packages.
@@ -48,7 +48,8 @@ To get started with Streamlined Monitor Connection Setup, follow these installat
    ```dart
    import 'package:flutter/material.dart';
    import 'package:riverpod/riverpod.dart';
-   import 'package:internet_connection_checker/internet_connection_checker.dart';
+   import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+
    ```
 
 ## Usage
