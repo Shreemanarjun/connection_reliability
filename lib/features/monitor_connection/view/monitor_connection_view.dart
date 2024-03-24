@@ -16,10 +16,10 @@ class MonitorConnectionView extends StatelessWidget {
   final Widget child;
   final Widget? noInternetWidget;
   const MonitorConnectionView({
-    Key? key,
+    super.key,
     required this.child,
     this.noInternetWidget,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +46,9 @@ class MonitorConnectionView extends StatelessWidget {
 class DefaultNoInternetWidget extends ConsumerStatefulWidget {
   final Widget? noInternetWidget;
   const DefaultNoInternetWidget({
-    Key? key,
+    super.key,
     this.noInternetWidget,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<DefaultNoInternetWidget> createState() =>
