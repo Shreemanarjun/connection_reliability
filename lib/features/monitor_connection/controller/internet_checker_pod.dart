@@ -1,21 +1,41 @@
-import 'package:connection_example/features/monitor_connection/controller/notifier/internet_status_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
-/// A flag provider to disable or enable internet checker
-final enableInternetCheckerPod = Provider.autoDispose<bool>((ref) {
-  return true;
-});
-
-/// stream provider of internet status
+///This stream provider class holds stream notifier
 final internetCheckerPod =
     StreamNotifierProvider.autoDispose<InternetStatusNotifier, InternetStatus>(
         InternetStatusNotifier.new);
 
-/// GIve the instatnce of internet connection class
+/// This provider used to when to enable internet checker which
+/// can be overriden for default value.
+final enableInternetCheckerPod = Provider.autoDispose<bool>((ref) {
+  return true;
+});
+
+/// This provider used to give a instance Internet Connection Checker
 final internetConnectionCheckerPod =
     Provider.autoDispose<InternetConnection>((ref) {
-  return InternetConnection.createInstance(
+  final internetchecker = InternetConnection.createInstance(
     checkInterval: const Duration(seconds: 5),
   );
+  return internetchecker;
 });
+
+///This stream notifier class handles internet connection status, and changes status if needed
+class InternetStatusNotifier extends AutoDisposeStreamNotifier<InternetStatus> {
+  @override
+  Stream<InternetStatus> build() {
+    final enabled = ref.watch(enableInternetCheckerPod);
+    if (enabled) {
+      final statuschange =
+          ref.watch(internetConnectionCheckerPod).onStatusChange;
+
+      return statuschange.distinct();
+    }
+    return Stream.value(InternetStatus.connected);
+  }
+
+  void change({required InternetStatus status}) {
+    state = AsyncValue.data(status);
+  }
+}
